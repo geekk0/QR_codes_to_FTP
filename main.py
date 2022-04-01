@@ -39,9 +39,9 @@ def get_link(tags, qr_name, qr_num):
 qr_dict = {}
 
 
-def cycle_get_names(qr_quantity, iter=1):
+def cycle_get_names(qr_quantity, i=1):
 
-    for qr_num in range(iter, qr_quantity+1):
+    for qr_num in range(i, qr_quantity+1):
 
         qr = input("Напишите qr-код N"+str(qr_num)+"(писать с #)\n")
 
