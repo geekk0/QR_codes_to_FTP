@@ -13,7 +13,7 @@ soup = BeautifulSoup(tags_source, features="html.parser")
 
 tags = soup.find_all("a")
 
-qr_quantity = int(input("Сколько нужно qr-кодов для стрима?(мксимум 9)\n"))
+qr_quantity = int(input("Сколько нужно qr-кодов для стрима?(максимум 9)\n"))
 
 
 def get_link(tags, qr_name, qr_num):
@@ -21,8 +21,10 @@ def get_link(tags, qr_name, qr_num):
     while True:
 
         qr_link = False
+
         for tag in tags:
             if qr_name in str(tag):
+
                 qr_link = "https://qrcodes.360tv.ru/tags/"+str(tag).split(r'"')[1]
 
                 qr_dict[qr_name] = qr_link
@@ -32,6 +34,7 @@ def get_link(tags, qr_name, qr_num):
         else:
             print("QR-код " + qr_name + " отсутствует на сайте")
             qr_name = input("Напишите qr-код N" + str(qr_num) + "(писать с #)\n")
+
 
 qr_dict = {}
 
@@ -44,6 +47,7 @@ def cycle_get_names(qr_quantity, iter=1):
 
         get_link(tags, qr_name=qr, qr_num=qr_num)
 
+
 cycle_get_names(qr_quantity)
 
 
@@ -55,12 +59,12 @@ qr_names = ["2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "222
 for i in range(len(qr_dict)):
     new_qr_dict[qr_names[i]] = qr_dict.get(list(qr_dict.keys())[i])
 
-ftp_karrera = FTP('192.168.119.66')
+ftp_karrera = FTP('')
 ftp_karrera.login()
 ftp_karrera.cwd("SUITE1/qr/")
 
-for qr_name, qr_link in new_qr_dict.items():                                                #
-    img_data = requests.get(qr_link,  auth=("simple", "jumpyloaf72")).content
+for qr_name, qr_link in new_qr_dict.items():
+    img_data = requests.get(qr_link,  auth=("", "")).content
 
     with open(qr_name, 'wb') as handler:
         handler.write(img_data)
@@ -72,12 +76,3 @@ for qr_name, qr_link in new_qr_dict.items():                                    
         handler.close()  # close file and FTP
     os.remove(qr_name)
 ftp_karrera.quit()
-
-
-
-
-
-
-
-
-
